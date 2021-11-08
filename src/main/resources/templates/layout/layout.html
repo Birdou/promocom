@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+
+<head>
+
+	<!-- Those meta tags must come first -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+	
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+	
+</head>
+
+<body>
+
+	<nav class="navbar navbar-dark bg-dark">
+	  <a class="navbar-brand" th:href="@{/}">Promocon</a>
+	  
+	  <a role="button" class="btn btn-outline-light" th:href="@{/login}">Entrar</a>
+	
+	</nav>
+	
+	<div layout:fragment="content">
+	</div>
+	
+	<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+	
+	<th:block layout:fragment="scripts">
+	</th:block>
+
+</body>
+
+</html>
