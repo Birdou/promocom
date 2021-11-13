@@ -16,8 +16,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class GenericEntity implements Serializable{
-	
+public abstract class GenericEntity implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Column(nullable = true, updatable = false)
@@ -30,10 +30,10 @@ public abstract class GenericEntity implements Serializable{
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataModification;
-	
+
 	@Column
 	private Boolean active = true;
-	
+
 	public abstract Long getId();
 
 	public abstract void setId(Long id);

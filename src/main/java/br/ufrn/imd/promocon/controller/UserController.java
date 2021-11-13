@@ -13,15 +13,15 @@ import br.ufrn.imd.promocon.service.UserService;
 @Controller
 @RequestMapping("/usuario")
 public class UserController {
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@PostMapping("/novo-cadastro")
 	public ModelAndView registerUser(User user) {
 		user.setRole(EnumRoles.ADMIN);
 		userService.save(user);
-		
+
 		return new ModelAndView("login");
 	}
 }
