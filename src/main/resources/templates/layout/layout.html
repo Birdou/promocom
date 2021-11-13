@@ -10,6 +10,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
 
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
+	<link rel="stylesheet" href="css/dropdown.css">
 
 </head>
 
@@ -21,9 +22,17 @@
 		<span sec:authorize="isAnonymous()">
 			<a role="button" class="btn btn-outline-light" th:href="@{/login}">Entrar</a>
 		</span>
+
 		<span sec:authorize="isAuthenticated()">
-			<a role="button" class=" btn btn-outline-light" th:href="@{/cadastro-loja}">Loja</a>
-			<a role="button" class="btn btn-outline-light" th:href="@{/logout}">Sair</a>
+			<div class="dropdown" style="float:right;">
+				<button class="dropbtn btn btn-outline-light">
+					Olá, <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+				</button>
+				<div class="dropdown-content">
+					<a th:href="@{/cadastro-loja}">Cadastrar loja</a>
+					<a th:href="@{/logout}">Sair</a>
+				</div>
+			</div>
 		</span>
 
 	</nav>
