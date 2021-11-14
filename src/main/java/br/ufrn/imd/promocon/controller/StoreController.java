@@ -27,10 +27,11 @@ public class StoreController {
 		} else {
 			username = principal.toString();
 		}
+
 		store.setOwner(username);
 
 		storeService.save(store);
 
-		return new ModelAndView("register_store");
+		return new ModelAndView("redirect:/");
 	}
 }

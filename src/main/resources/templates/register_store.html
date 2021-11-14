@@ -12,6 +12,9 @@
 
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="js/buscaCEP.js"></script>
+
 </head>
 
 <style>
@@ -48,8 +51,24 @@
 				<div class="form-registry">
 					<form class="form" th:action="@{/loja/novo-loja}" role="form" method="post" th:object="${store}">
 						<div class="form-group">
-							<input type="text" id="username" th:field="*{name}" name="username" class="form-control"
-								placeholder="Name" />
+							<label>Informações gerais</label>
+							<input type="text" id="name" th:field="*{name}" name="name" size="40" class="form-control"
+								placeholder="Nome" required>
+
+							<br>
+							<label>Localização</label>
+							<input name="cep" type="text" id="cep" th:field="*{zip}" value="" maxlength="9"
+								onblur="pesquisacep(this.value);" class="form-control" placeholder="Cep" required>
+							<input name="rua" type="text" id="rua" th:field="*{street}" class="form-control"
+								placeholder="Rua" required>
+							<input name="numero" type="text" id="numero" th:field="*{number}" class="form-control"
+								placeholder="Número" required>
+							<input name="bairro" type="text" id="bairro" th:field="*{district}" class="form-control"
+								placeholder="Bairro" required>
+							<input name="cidade" type="text" id="cidade" th:field="*{city}" class="form-control"
+								placeholder="Cidade" readonly>
+							<input name="uf" type="text" id="uf" th:field="*{state}" class="form-control"
+								placeholder="UF" readonly>
 						</div>
 						<div style="text-align: center;">
 							<span class="group-btn">

@@ -1,0 +1,14 @@
+{
+	"configurations": [
+		{
+			"type": "java",
+			"name": "Spring Boot-PromoconApplication<promocon>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"console": "internalConsole",
+			"mainClass": "br.ufrn.imd.promocon.PromoconApplication",
+			"projectName": "promocon",
+			"args": ""
+		}
+	]
+}

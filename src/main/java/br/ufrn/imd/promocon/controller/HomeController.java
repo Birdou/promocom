@@ -1,5 +1,7 @@
 package br.ufrn.imd.promocon.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +36,21 @@ public class HomeController {
 
 	@GetMapping("/cadastro-loja")
 	public ModelAndView storeRegisterPage() {
-		ModelAndView mv = new ModelAndView("register_store");
-		mv.addObject("store", new Store());
+		ModelAndView mv = null;
+
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = null;
+		if (principal instanceof UserDetails) {
+			username = ((UserDetails) principal).getUsername();
+
+			Store store = new Store();
+			store.setOwner(username);
+
+			mv = new ModelAndView("register_store");
+			mv.addObject("store", store);
+		} else {
+			mv = new ModelAndView("login");
+		}
 
 		return mv;
 	}
