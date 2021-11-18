@@ -2,6 +2,7 @@ package br.ufrn.imd.promocon.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,8 +17,16 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@GetMapping("/cadastro")
+	public ModelAndView registerPage() {
+		ModelAndView mv = new ModelAndView("register");
+		mv.addObject("user", new User());
 
-	@PostMapping("/novo-cadastro")
+		return mv;
+	}
+
+	@PostMapping("/salvar")
 	public ModelAndView registerUser(User user) {
 		user.setRole(EnumRoles.ADMIN);
 		userService.save(user);

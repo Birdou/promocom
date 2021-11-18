@@ -49,7 +49,7 @@
 		<div class="row">
 			<div class="col">
 				<div class="form-registry">
-					<form class="form" th:action="@{/loja/novo-loja}" role="form" method="post" th:object="${store}">
+					<form class="form" th:action="@{/loja/salvar}" role="form" method="post" th:object="${store}">
 						<div class="form-group">
 							<label>Informações gerais</label>
 							<input type="text" id="name" th:field="*{name}" name="name" size="40" class="form-control"

@@ -47,7 +47,7 @@
 	    <div class="row">
 	        <div class="col">
 	            <div class="form-registry">
-	            	<form class="form" th:action="@{/usuario/novo-cadastro}" role="form" method="post" th:object="${user}">
+	            	<form class="form" th:action="@{/usuario/salvar}" role="form" method="post" th:object="${user}">
 	            		<div class="form-group">
 			            	<input type="text" id="username" th:field="*{login}" name="username" class="form-control" placeholder="Login" />
 			            </div>

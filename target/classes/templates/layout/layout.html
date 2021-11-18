@@ -11,6 +11,9 @@
 
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
 	<link rel="stylesheet" href="css/dropdown.css">
+	
+	<link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css}" type="text/css"
+		rel="stylesheet" />
 
 </head>
 
@@ -19,21 +22,26 @@
 	<nav class="navbar navbar-dark bg-dark">
 		<a class="navbar-brand" th:href="@{/}">Promocon</a>
 
-		<span sec:authorize="isAnonymous()">
+		<div sec:authorize="isAnonymous()">
 			<a role="button" class="btn btn-outline-light" th:href="@{/login}">Entrar</a>
-		</span>
+		</div>
 
-		<span sec:authorize="isAuthenticated()">
+		<div sec:authorize="isAuthenticated()">
+			<a class="btn text-light" th:href="@{/promocao/publicar}">
+				<i class="far fa-plus-square"></i>
+				Publicar
+			</a>
+		
 			<div class="dropdown" style="float:right;">
-				<button class="dropbtn btn btn-outline-light">
+				<button class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Olá, <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
 				</button>
 				<div class="dropdown-content">
-					<a th:href="@{/cadastro-loja}">Cadastrar loja</a>
+					<a th:href="@{/loja/cadastro}">Cadastrar loja</a>
 					<a th:href="@{/logout}">Sair</a>
 				</div>
 			</div>
-		</span>
+		</div>
 
 	</nav>
 

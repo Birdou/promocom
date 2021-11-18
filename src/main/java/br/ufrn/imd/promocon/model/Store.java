@@ -1,9 +1,13 @@
 package br.ufrn.imd.promocon.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -29,6 +33,9 @@ public class Store extends GenericEntity {
 	private String district;
 	private String city;
 	private String state;
+	
+	@OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
+	private List<Sale> sales;
 
 	@Override
 	public Long getId() {
@@ -102,6 +109,14 @@ public class Store extends GenericEntity {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public List<Sale> getSales() {
+		return sales;
+	}
+
+	public void setSales(List<Sale> sales) {
+		this.sales = sales;
 	}
 
 }
