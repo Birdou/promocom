@@ -7,6 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -24,7 +26,10 @@ public class Store extends GenericEntity {
 
 	private String name;
 
-	private String owner;
+	// private String owner;
+	@ManyToOne
+	@JoinColumn(name = "id_owner")
+	private User owner;
 
 	// localização
 	private String zip;
@@ -33,7 +38,7 @@ public class Store extends GenericEntity {
 	private String district;
 	private String city;
 	private String state;
-	
+
 	@OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
 	private List<Sale> sales;
 
@@ -47,11 +52,11 @@ public class Store extends GenericEntity {
 		this.id = id;
 	}
 
-	public String getOwner() {
+	public User getOwner() {
 		return owner;
 	}
 
-	public void setOwner(String owner) {
+	public void setOwner(User owner) {
 		this.owner = owner;
 	}
 

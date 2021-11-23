@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.ufrn.imd.promocon.model.Store;
+import br.ufrn.imd.promocon.model.User;
 import br.ufrn.imd.promocon.service.StoreService;
 
 @Controller
@@ -18,41 +19,44 @@ public class StoreController {
 
 	@Autowired
 	StoreService storeService;
-	
+
 	@GetMapping("/cadastro")
 	public ModelAndView storeRegisterPage() {
 		ModelAndView mv = null;
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username = null;
-		if (principal instanceof UserDetails) {
-			username = ((UserDetails) principal).getUsername();
+		if (principal instanceof User) {
+			User user = (User) principal;
 
 			Store store = new Store();
-			store.setOwner(username);
+			store.setOwner(user);
 
 			mv = new ModelAndView("register_store");
 			mv.addObject("store", store);
 		} else {
 			mv = new ModelAndView("login");
 		}
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		System.out.println(user.getId());
 
 		return mv;
 	}
 
 	@PostMapping("/salvar")
 	public ModelAndView registerStore(Store store) {
-		String username = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof UserDetails) {
-			username = ((UserDetails) principal).getUsername();
+			User user = (User) principal;
+			store.setOwner(user);
+			storeService.save(store);
 		} else {
-			username = principal.toString();
+			try {
+				throw new ClassNotFoundException();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
-
-		store.setOwner(username);
-
-		storeService.save(store);
 
 		return new ModelAndView("redirect:/");
 	}
