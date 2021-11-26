@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+.sale-main {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sale-main>* {
+    flex: 0 0 20%;
+}
+
+.sale {
+    margin: 5px;
+    padding: 2px;
+}
+
+.sale:hover {
+    border: 1px solid black;
+}
+
+.sale-image {
+    margin: auto;
+    height: 15vw;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.sale-image img {
+    margin: auto;
+    max-height: 100%;
+
+    position: absolute;
+
+    top: -100%;
+    left: -100%;
+    bottom: -100%;
+    right: -100%;
+}
+
+.sale-title, .sale-title a {
+    margin: 0;
+}
+
+.sale-title a {
+    text-decoration: none;
+    color: black;
+}
+
+.sale-store, .sale-store a {
+    color: #555;
+    font-size: 12px;
+}
+
+.sale-store::before {
+    content: "Vendido por ";
+}
+
+.sale-originalprice {
+    font-size: 12px;
+    text-decoration: line-through;
+}
+
+.sale-originalprice::before {
+    content: "De R$ ";
+}
+
+.sale-newprice {
+    font-weight: bold;
+}
+
+.sale-newprice::before {
+    content: "Por R$ ";
+}

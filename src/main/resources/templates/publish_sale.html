@@ -72,7 +72,7 @@
 						</div>
 						<div class="form-group">
 							<label for="storeSelect">Selecione a loja</label>
-							<select class="form-control" th:field="*{store}">
+							<select class="form-control" th:field="*{store}" required>
 								<option disabled selected th:value="${null}" th:text="${'Selecionar'}">
 								<option th:each="store : ${stores}"
 									th:if="${store.getOwner().getUsername()} == ${#authentication.getPrincipal().getUsername()}"

@@ -24,44 +24,44 @@ import br.ufrn.imd.promocon.utils.FileUploadUtils;
 @Controller
 @RequestMapping("/promocao")
 public class SaleController {
-	
+
 	@Autowired
 	SaleService saleService;
-	
+
 	@Autowired
 	StoreService storeService;
-	
+
 	@GetMapping("/publicar")
 	public ModelAndView salePostPage() {
-		
+
 		List<Store> stores = storeService.findAll();
-		
+
 		ModelAndView mv = new ModelAndView("publish_sale");
 		mv.addObject("sale", new Sale());
 		mv.addObject("stores", stores);
-		
+
 		return mv;
 	}
-	
+
 	@PostMapping("/salvar")
-	public ModelAndView saveSale(Sale sale, @RequestParam("imageFile") MultipartFile multipartFile){
+	public ModelAndView saveSale(Sale sale, @RequestParam("imageFile") MultipartFile multipartFile) {
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-		
+
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
-        sale.setImage(fileName);
-        sale.setAuthor(user);
-        
-        String uploadDir = "sale-images/";
-        
-        try {
+
+		sale.setImage(fileName);
+		sale.setAuthor(user);
+
+		String uploadDir = "src/main/resources/static/sale-images";
+
+		try {
 			FileUploadUtils.saveFile(uploadDir, fileName, multipartFile);
-			
+
 			saleService.save(sale);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        
-        return new ModelAndView("redirect:/");
+
+		return new ModelAndView("redirect:/");
 	}
 }
