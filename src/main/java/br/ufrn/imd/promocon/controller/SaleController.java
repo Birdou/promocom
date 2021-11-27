@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,6 +62,23 @@ public class SaleController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		return new ModelAndView("redirect:/");
+	}
+
+	@GetMapping("/visualizar/{id}")
+	public ModelAndView showSale(@PathVariable("id") Long id) {
+		Sale sale = (Sale) saleService.findById(id).get();
+
+		ModelAndView mv = new ModelAndView("sale");
+		mv.addObject("sale", sale);
+
+		return mv;
+	}
+
+	@GetMapping("/excluir/{id}")
+	public ModelAndView removeSale(@PathVariable("id") Long id) {
+		saleService.removeById(id);
 
 		return new ModelAndView("redirect:/");
 	}

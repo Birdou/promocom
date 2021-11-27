@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+
+    <title th:text="${sale.title}">...</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
+
+    <link th:href="@{/css/sale_grid.css}" th:rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script th:src="@{/js/stars.js}"></script>
+
+</head>
+
+<body>
+    <div layout:fragment="content">
+
+        <div class="container">
+            <div sec:authorize="isAuthenticated()">
+                <a th:if="${sale.store.getOwner().getUsername()} == ${#authentication.getPrincipal().getUsername()}"
+                    th:href="@{'/promocao/excluir/{id}' (id=${sale.id})}">Remover anúncio</a>
+            </div>
+
+            <div class="sale-image">
+                <img th:src="@{/sale-images/__(${sale.image})__}">
+            </div>
+            <div class="sale-title">
+                <label th:text="${sale.title}" type="submit">...</label>
+            </div>
+            <div class="sale-description">
+                <label th:text="${sale.description}" type="submit">...</label>
+            </div>
+            <div class="sale-store">
+                <a href="#" th:text="${sale.store.name}">...</a>
+            </div>
+            <div class="sale-stars">
+                <span th:id="rate"></span>
+                <script>
+                    getStars("rate", 5);
+                </script>
+            </div>
+            <div class="sale-originalprice">
+                <span th:text="${sale.originalPrice}">...</span>
+            </div>
+            <div class="sale-newprice">
+                <span th:text="${sale.salePrice}">...</span>
+            </div>
+        </div>
+
+    </div>
+
+    <th:block layout:fragment="scripts">
+    </th:block>
+
+</body>
+
+</html>

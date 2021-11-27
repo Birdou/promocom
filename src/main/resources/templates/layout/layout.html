@@ -7,13 +7,13 @@
 
 	<!-- Those meta tags must come first -->
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 
-	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
-	<link rel="stylesheet" href="css/dropdown.css">
-	
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}">
+	<link th:rel="stylesheet" th:href="@{/css/dropdown.css}">
+
 	<link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css}" type="text/css"
-		rel="stylesheet" />
+		rel="stylesheet">
 
 </head>
 
@@ -31,9 +31,10 @@
 				<i class="far fa-plus-square"></i>
 				Publicar
 			</a>
-		
+
 			<div class="dropdown" style="float:right;">
-				<button class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false">
 					Olá, <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
 				</button>
 				<div class="dropdown-content">
