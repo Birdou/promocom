@@ -9,6 +9,18 @@
     flex: 0 0 20%;
 }
 
+@media ( max-width: 900px) {	
+	.sale-main>* {
+	    flex: 0 0 33%;
+	}
+}
+
+@media ( max-width: 450px) {
+	.sale-main>* {
+	    flex: 0 0 100%;
+	}	
+}
+
 .sale {
     padding-top: 5px;
     padding-bottom: 5px;
@@ -27,7 +39,7 @@
 
 .sale-image {
     margin: auto;
-    height: 15vw;
+    height: 200px;
 
     position: relative;
     overflow: hidden;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.ufrn.imd.promocon.model.Sale;
@@ -34,6 +35,21 @@ public class HomeController {
 		mv.addObject("stores", stores);
 		mv.addObject("sales", sales);
 
+		return mv;
+	}
+	
+	@GetMapping("/busca")
+	public ModelAndView filteredHomePage(@RequestParam("searchTerm") String term) {
+		if(term == null || term.equals("")) {
+			return new ModelAndView("redirect:/");
+		}
+		
+		List<Sale> sales = saleService.findByTerm(term);
+		
+		ModelAndView mv = new ModelAndView("home");
+		
+		mv.addObject("sales", sales);
+		
 		return mv;
 	}
 

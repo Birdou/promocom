@@ -16,34 +16,34 @@
 	<div layout:fragment="content">
 
 		<div class="sale-main p-4">
-			<div class="card">
-				<div th:each="sale : ${sales}">
+			<div class="card"th:each="sale : ${sales}">
+				<a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}">
 					<div class="sale-image">
 						<img th:src="@{sale-images/__(${sale.image})__}">
 					</div>
-					<div class="sale">
-						<div class="sale-title">
-							<a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}" th:text="${sale.title}">...</a>
-						</div>
-						<div class="sale-store">
-							<a href="#" th:text="${sale.store.name}">...</a>
-						</div>
-						<div class="sale-stars">
-							<th:block th:with="randomId=${#strings.randomAlphanumeric(10)}">
-								<span th:id=${randomId}></span>
-								<script th:inline="javascript">
-									/*<![CDATA[*/
-									getStars(/*[[${randomId}]]*/ 'default', 4.3);
-									/*]]>*/
-								</script>
-							</th:block>
-						</div>
-						<div class="sale-originalprice">
-							<span th:text="${sale.originalPrice}">...</span>
-						</div>
-						<div class="sale-newprice">
-							<span th:text="${sale.salePrice}">...</span>
-						</div>
+				</a>
+				<div class="sale">
+					<div class="sale-title">
+						<a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}" th:text="${sale.title}">...</a>
+					</div>
+					<div class="sale-store">
+						<a href="#" th:text="${sale.store.name}">...</a>
+					</div>
+					<div class="sale-stars">
+						<th:block th:with="randomId=${#strings.randomAlphanumeric(10)}">
+							<span th:id=${randomId}></span>
+							<script th:inline="javascript">
+								/*<![CDATA[*/
+								getStars(/*[[${randomId}]]*/ 'default', 4.3);
+								/*]]>*/
+							</script>
+						</th:block>
+					</div>
+					<div class="sale-originalprice">
+						<span th:text="${sale.originalPrice}">...</span>
+					</div>
+					<div class="sale-newprice">
+						<span th:text="${sale.salePrice}">...</span>
 					</div>
 				</div>
 			</div>
