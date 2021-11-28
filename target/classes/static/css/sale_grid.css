@@ -10,13 +10,20 @@
 }
 
 .sale {
-    margin: 5px;
-    padding: 2px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: white;
+	border-radius: 2px;
+    background-color: #212529;
 }
 
+/*
 .sale:hover {
     border: 1px solid black;
 }
+*/
 
 .sale-image {
     margin: auto;
@@ -44,11 +51,11 @@
 
 .sale-title a {
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 .sale-store, .sale-store a {
-    color: #555;
+    color: #a8a8a8;
     font-size: 12px;
 }
 

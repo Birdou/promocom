@@ -42,4 +42,13 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView("login");
 		return mv;
 	}
+	
+	@GetMapping("/login-erro")
+	public ModelAndView loginErrorPage() {
+		ModelAndView mv = new ModelAndView("login");
+		
+		mv.addObject("error", "Login e/ou senha inválidos.");
+		
+		return mv;
+	}
 }

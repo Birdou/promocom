@@ -11,52 +11,39 @@
 	<title>Promocon - Cadastro</title>
 		
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+	<link th:rel="stylesheet" th:href="@{/css/layout/layout.css}">
 	
 </head>
 
 <style>
-
-	html, body {
-		height: 100%;
-	}
-
-	.form-registry {
-    	background-color: #EDEDED;
-	    padding-top: 10px;
-	    padding-bottom: 20px;
-	    padding-left: 20px;
-	    padding-right: 20px;
-	    border-radius: 15px;
-	    border-color:#d2d2d2;
-	    border-width: 5px;
-	    box-shadow:0 1px 0 #cfcfcf;
-	}
-	
-	.container {
-	    height: 100%;
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	}
-	
 </style>
 
 <body>
-
 	<div class="container">
 	    <div class="row">
 	        <div class="col">
-	            <div class="form-registry">
-	            	<form class="form" th:action="@{/usuario/salvar}" role="form" method="post" th:object="${user}">
+	            <div class="form-card">
+	            	<div class="text-center p-2"><h3>Cadastro</h3></div>
+	            	<form class="form needs-validation" th:action="@{/usuario/salvar}" role="form" method="post" th:object="${user}" novalidate>
 	            		<div class="form-group">
-			            	<input type="text" id="username" th:field="*{login}" name="username" class="form-control" placeholder="Login" />
+			            	<input type="text" id="username" th:field="*{login}" name="username" class="form-control" placeholder="Login" 
+			            		required
+			            		maxlength="15">
+		            		<div class="invalid-feedback">
+					    		Este campo é obrigatório!
+					    	</div>
 			            </div>
 			            <div class="form-group">
-			            	<input type="password" id="password" th:field="*{password}" name="password" class="form-control" placeholder="Senha" />
+			            	<input type="password" id="password" th:field="*{password}" name="password" class="form-control" placeholder="Senha" 
+			            	required
+			            	maxlength="20"/>
+			            	<div class="invalid-feedback">
+						    	Este campo é obrigatório!
+						    </div>
 			            </div>
 			            <div style="text-align: center;">
 				            <span class="group-btn">     
-				                <button type="submit" class="btn btn-primary btn-md">Cadastrar</button>
+				                <button type="submit" class="btn btn-outline-light btn-md">Cadastrar</button>
 				            </span>
 			            </div>
 		            </form>
@@ -68,7 +55,8 @@
 	<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 	<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
-
+	<script type="text/javascript" th:src="@{/js/needs_validation.js}"></script>
+		
 </body>
 
 </html>

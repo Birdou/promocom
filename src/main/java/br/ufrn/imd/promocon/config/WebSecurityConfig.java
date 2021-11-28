@@ -21,8 +21,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().anyRequest().permitAll().and().formLogin().defaultSuccessUrl("/")
-				.loginPage("/novo-login").failureUrl("/login").permitAll();
+		http.csrf().disable()
+			.authorizeRequests()
+					.anyRequest().permitAll()
+			.and()
+				.formLogin()
+				.defaultSuccessUrl("/")
+				.loginPage("/novo-login")
+				.failureUrl("/login-erro")
+				.permitAll();
 		http.logout().logoutSuccessUrl("/");
 	}
 

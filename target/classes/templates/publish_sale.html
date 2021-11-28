@@ -11,33 +11,11 @@
 	<title>Promocon - Publicar</title>
 
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
+	<link th:rel="stylesheet" th:href="@{/css/layout/layout.css}">
 
 </head>
 
 <style>
-	html,
-	body {
-		height: 100%;
-	}
-
-	.form-registry {
-		background-color: #EDEDED;
-		padding-top: 10px;
-		padding-bottom: 20px;
-		padding-left: 20px;
-		padding-right: 20px;
-		border-radius: 15px;
-		border-color: #d2d2d2;
-		border-width: 5px;
-		box-shadow: 0 1px 0 #cfcfcf;
-	}
-
-	.container {
-		height: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
 </style>
 
 <body>
@@ -45,49 +23,65 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<div class="form-registry">
-					<form class="form" th:action="@{/promocao/salvar}" role="form" method="post" th:object="${sale}"
-						enctype="multipart/form-data">
+				<div class="form-card">
+					<form class="form needs-validation" th:action="@{/promocao/salvar}" role="form" method="post" th:object="${sale}"
+						enctype="multipart/form-data" novalidate>
+						<div class="text-center p-2"><h3>Publicar Promoção</h3></div>
 						<div class="form-group">
 							<input type="text" id="title" th:field="*{title}" class="form-control" placeholder="Título"
 								required>
+							<div class="invalid-feedback">
+								Este campo é obrigatório!
+							</div>
 						</div>
 						<div class="form-group">
 							<textarea id="description" th:field="*{description}" class="form-control"
 								placeholder="Descrição" required></textarea>
+							<div class="invalid-feedback">
+								Este campo é obrigatório!
+							</div>
 						</div>
 						<div class="row">
 							<div class="col">
 								<div class="form-group">
 									<input id="originalPrice" th:field="*{originalPrice}" class="form-control"
 										placeholder="Preço anterior" required>
+									<div class="invalid-feedback">
+										Este campo é obrigatório!
+									</div>
 								</div>
 							</div>
 							<div class="col">
 								<div class="form-group">
 									<input id="salePrice" th:field="*{salePrice}" class="form-control"
 										placeholder="Preço com desconto" required>
+									<div class="invalid-feedback">
+										Este campo é obrigatório!
+									</div>
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="storeSelect">Selecione a loja</label>
 							<select class="form-control" th:field="*{store}" required>
-								<option disabled selected th:value="${null}" th:text="${'Selecionar'}">
+								<option selected th:value="${null}" th:text="${'Selecionar'}">
 								<option th:each="store : ${stores}"
 									th:if="${store.getOwner().getUsername()} == ${#authentication.getPrincipal().getUsername()}"
 									th:value="${store.id}" th:text="${store.name}">
 								</option>
 							</select>
+							<div class="invalid-feedback">
+								Este campo é obrigatório!
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="image"> Anexar imagem: </label>
 							<input type="file" id="image" name="imageFile" class="form-control-file"
-								accept="image/png, image/jpeg" required>
+								accept="image/png, image/jpeg">
 						</div>
 						<div style="text-align: center;">
 							<span class="group-btn">
-								<button type="submit" class="btn btn-primary btn-md">Publicar</button>
+								<button type="submit" class="btn btn-outline-light btn-md">Publicar</button>
 							</span>
 						</div>
 					</form>
@@ -99,6 +93,7 @@
 	<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 	<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/needs_validation.js}"></script>
 
 </body>
 
