@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.ufrn.imd.promocon.enums.EnumCategories;
 import br.ufrn.imd.promocon.model.Sale;
 import br.ufrn.imd.promocon.model.Store;
 import br.ufrn.imd.promocon.service.SaleService;
@@ -34,6 +36,7 @@ public class HomeController {
 
 		mv.addObject("stores", stores);
 		mv.addObject("sales", sales);
+		mv.addObject("categories", EnumCategories.values());
 
 		return mv;
 	}
@@ -49,6 +52,19 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView("home");
 		
 		mv.addObject("sales", sales);
+		mv.addObject("categories", EnumCategories.values());
+		
+		return mv;
+	}
+	
+	@GetMapping("/categoria/{category}")
+	public ModelAndView filteredByCategoryHomePage(@PathVariable("category") String category) {
+		List<Sale> sales = saleService.findByCategory(category);
+		
+		ModelAndView mv = new ModelAndView("home");
+		
+		mv.addObject("sales", sales);
+		mv.addObject("categories", EnumCategories.values());
 		
 		return mv;
 	}

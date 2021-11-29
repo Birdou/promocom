@@ -14,4 +14,7 @@ public interface SaleRepository extends GenericRepository<Sale> {
 	@Query(value = "SELECT * FROM sales WHERE lower(sales.title) like(concat('%', ?1, '%')) AND sales.active = true", nativeQuery = true)
 	Optional<List<Sale>> findByTerm(String term);
 	
+	@Query(value = "SELECT * FROM sales WHERE sales.category = ?1 AND sales.active = true", nativeQuery = true)
+	Optional<List<Sale>> findByCategory(String category);
+	
 }

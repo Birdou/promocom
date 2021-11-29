@@ -75,6 +75,18 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label for="storeSelect">Selecione a categoria</label>
+							<select class="form-control" th:field="*{category}" required>
+								<option selected th:value="${null}" th:text="${'Selecionar'}">
+								<option th:each="category : ${categories}"
+									th:value="${category}" th:text="${category.description}">
+								</option>
+							</select>
+							<div class="invalid-feedback">
+								Este campo é obrigatório!
+							</div>
+						</div>
+						<div class="form-group">
 							<label for="image"> Anexar imagem: </label>
 							<input type="file" id="image" name="imageFile" class="form-control-file"
 								accept="image/png, image/jpeg">

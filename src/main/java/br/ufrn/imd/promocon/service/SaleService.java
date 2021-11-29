@@ -26,5 +26,15 @@ public class SaleService extends GenericService<Sale> {
 		
 		return sales;
 	}
-
+	
+	public List<Sale> findByCategory(String category){
+		Optional<List<Sale>> opt = saleRepository.findByCategory(category);
+		List<Sale> sales = new ArrayList<Sale>();
+		
+		if(opt.isPresent()) {
+			sales = opt.get();
+		}
+		
+		return sales;
+	}
 }

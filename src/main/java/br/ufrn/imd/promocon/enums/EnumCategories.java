@@ -2,7 +2,7 @@ package br.ufrn.imd.promocon.enums;
 
 public enum EnumCategories {
 	
-	ELETRONICOS("Eletrônicos"), INFORMÁTICA("Informática"), CASA_E_DECORACAO("Casa e decoração"), MODA_E_ACESSORIOS("Moda e acessórios"), SAUDE_E_BELEZA("Saúde e Beleza"), ELETRODOMESTICOS("Eletrodomésticos"), SUPERMERCADO("Sumermercado");
+	ELETRONICOS("Eletrônicos"), INFORMATICA("Informática"), CASA_E_DECORACAO("Casa e decoração"), MODA_E_ACESSORIOS("Moda e acessórios"), SAUDE_E_BELEZA("Saúde e Beleza"), ELETRODOMESTICOS("Eletrodomésticos"), SUPERMERCADO("Sumermercado");
 	
 	private String description;
 

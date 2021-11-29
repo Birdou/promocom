@@ -1,17 +1,17 @@
 package br.ufrn.imd.promocon.model;
 
-import java.util.List;
-
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import br.ufrn.imd.promocon.enums.EnumCategories;
 
 @Table(name = "sales")
 @Entity
@@ -36,8 +36,8 @@ public class Sale extends GenericEntity {
 	
 	private String image;
 	
-	@OneToMany(mappedBy = "sale", fetch = FetchType.LAZY)
-	private List<Category> categories;
+	@Enumerated(EnumType.STRING)
+	private EnumCategories category;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_store")
@@ -95,14 +95,6 @@ public class Sale extends GenericEntity {
 		this.discount = discount;
 	}
 
-	public List<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
-	}
-
 	public Store getStore() {
 		return store;
 	}
@@ -125,5 +117,13 @@ public class Sale extends GenericEntity {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public EnumCategories getCategory() {
+		return category;
+	}
+
+	public void setCategory(EnumCategories category) {
+		this.category = category;
 	}
 }
