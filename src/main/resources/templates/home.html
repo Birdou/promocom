@@ -16,7 +16,7 @@
 	<div layout:fragment="content">
 
 		<div class="sale-main p-4">
-			<div class="card"th:each="sale : ${sales}">
+			<div class="card" th:each="sale : ${sales}">
 				<a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}">
 					<div class="sale-image">
 						<img th:src="@{/sale-images/__(${sale.image})__}">
@@ -24,7 +24,10 @@
 				</a>
 				<div class="sale">
 					<div class="sale-title">
-						<a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}" th:text="${sale.title}">...</a>
+						<a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}">
+							[[${sale.title}]] <img th:if="${sale.verified} == true" style="height: 18px;"
+								th:src="@{/images/verified-icon.jpg}" title="Anunciado pela loja">
+						</a>
 					</div>
 					<div class="sale-store">
 						<a href="#" th:text="${sale.store.name}">...</a>

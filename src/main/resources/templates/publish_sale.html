@@ -24,9 +24,11 @@
 		<div class="row">
 			<div class="col">
 				<div class="form-card">
-					<form class="form needs-validation" th:action="@{/promocao/salvar}" role="form" method="post" th:object="${sale}"
-						enctype="multipart/form-data" novalidate>
-						<div class="text-center p-2"><h3>Publicar Promoção</h3></div>
+					<form class="form needs-validation" th:action="@{/promocao/salvar}" role="form" method="post"
+						th:object="${sale}" enctype="multipart/form-data" novalidate>
+						<div class="text-center p-2">
+							<h3>Publicar Promoção</h3>
+						</div>
 						<div class="form-group">
 							<input type="text" id="title" th:field="*{title}" class="form-control" placeholder="Título"
 								required>
@@ -64,11 +66,17 @@
 						<div class="form-group">
 							<label for="storeSelect">Selecione a loja</label>
 							<select class="form-control" th:field="*{store}" required>
-								<option selected th:value="${null}" th:text="${'Selecionar'}">
-								<option th:each="store : ${stores}"
-									th:if="${store.getOwner().getUsername()} == ${#authentication.getPrincipal().getUsername()}"
-									th:value="${store.id}" th:text="${store.name}">
-								</option>
+								<option selected disabled th:value="${null}" th:text="${'Selecionar'}"></option>
+								<optgroup label="Suas lojas">
+									<option th:each="store : ${stores}"
+										th:if="${store.getOwner().getUsername()} == ${#authentication.getPrincipal().getUsername()}"
+										th:value="${store.id}" th:text="${store.name}">
+									</option>
+								</optgroup>
+								<optgroup label="Outras lojas">
+									<option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name}">
+									</option>
+								</optgroup>
 							</select>
 							<div class="invalid-feedback">
 								Este campo é obrigatório!
@@ -78,8 +86,8 @@
 							<label for="storeSelect">Selecione a categoria</label>
 							<select class="form-control" th:field="*{category}" required>
 								<option selected th:value="${null}" th:text="${'Selecionar'}">
-								<option th:each="category : ${categories}"
-									th:value="${category}" th:text="${category.description}">
+								<option th:each="category : ${categories}" th:value="${category}"
+									th:text="${category.description}">
 								</option>
 							</select>
 							<div class="invalid-feedback">

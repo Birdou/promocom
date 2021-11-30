@@ -18,31 +18,33 @@ import br.ufrn.imd.promocon.enums.EnumCategories;
 public class Sale extends GenericEntity {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SALE")
 	@SequenceGenerator(name = "SEQ_SALE", sequenceName = "seq_sale", allocationSize = 1)
 	private Long id;
-	
+
 	private String title;
-	
+
 	private String description;
-	
+
 	private Double originalPrice;
-	
+
 	private Double salePrice;
-	
+
 	private Double discount;
-	
+
 	private String image;
-	
+
+	private boolean verified;
+
 	@Enumerated(EnumType.STRING)
 	private EnumCategories category;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_store")
 	private Store store;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_author")
 	private User author;
@@ -125,5 +127,13 @@ public class Sale extends GenericEntity {
 
 	public void setCategory(EnumCategories category) {
 		this.category = category;
+	}
+
+	public void setVerified(boolean verified) {
+		this.verified = verified;
+	}
+
+	public boolean getVerified() {
+		return this.verified;
 	}
 }

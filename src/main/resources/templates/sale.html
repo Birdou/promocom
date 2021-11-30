@@ -1,74 +1,76 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorate="~{layout/layout}">
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorate="~{layout/layout}">
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
 
-    <title th:text="${sale.title}">...</title>
+	<title th:text="${sale.title}">...</title>
 
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
 
-    <link th:href="@{/css/sale_grid.css}" th:rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link th:href="@{/css/sale_grid.css}" th:rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <script th:src="@{/js/stars.js}"></script>
-    
-    <style type="text/css">
-    
-    	.sale-originalprice {
-		    font-size: 20px;
+	<script th:src="@{/js/stars.js}"></script>
+
+	<style type="text/css">
+		.sale-originalprice {
+			font-size: 20px;
 		}
+
 		.sale-newprice {
-		    font-size: 30px;
+			font-size: 30px;
 		}
-		
-    </style>
+	</style>
 
 </head>
 
 <body>
-    <div layout:fragment="content">
+	<div layout:fragment="content">
 
-        <div class="container">
-            <div sec:authorize="isAuthenticated()">
-                <a th:if="${sale.store.getOwner().getUsername()} == ${#authentication.getPrincipal().getUsername()}"
-                    th:href="@{'/promocao/excluir/{id}' (id=${sale.id})}">Remover anúncio</a>
-            </div>
+		<div class="container">
+			<div sec:authorize="isAuthenticated()">
+				<a th:if="${sale.author.getUsername()} == ${#authentication.getPrincipal().getUsername()} OR ${sale.store.owner.getUsername()} == ${#authentication.getPrincipal().getUsername()}"
+					th:href="@{'/promocao/excluir/{id}' (id=${sale.id})}">Remover anúncio</a>
+			</div>
 			<div class="row">
 				<div class="col" align="center">
-		        	<div><img width="400" height="400" th:src="@{/sale-images/__(${sale.image})__}"></div>
+					<div><img width="400" height="400" th:src="@{/sale-images/__(${sale.image})__}"></div>
 				</div>
 				<div class="col-md-6 col-sm-12">
-		            <h2 th:text="${sale.title}">...</h2>
-		            <div class="sale-stars">
-		                <span th:id="rate"></span>
-		                <script>
-		                    getStars("rate", 5);
-		                </script>
-		            </div>
-		            <div class="sale-description">
-		                <label th:text="${sale.description}" type="submit">...</label>
-		            </div>
-		            <div class="sale-store mb-2">
-		                <a href="#" th:text="${sale.store.name}">...</a>
-		            </div>
-		            <div class="sale-originalprice">
-		                <span th:text="${sale.originalPrice}">...</span>
-		            </div>
-		            <div class="sale-newprice">
-		                <span th:text="${sale.salePrice}">...</span>
-		            </div>
+					<h2>
+						[[${sale.title}]] <img th:if="${sale.verified} == true" style="height: 28px;"
+							th:src="@{/images/verified-icon.jpg}" alt="Verificado" title="Anunciado pela loja">
+					</h2>
+					<div class="sale-stars">
+						<span th:id="rate"></span>
+						<script>
+							getStars("rate", 5);
+						</script>
+					</div>
+					<div class="sale-description">
+						<label th:text="${sale.description}" type="submit">...</label>
+					</div>
+					<div class="sale-store mb-2">
+						<a href="#" th:text="${sale.store.name}">...</a>
+					</div>
+					<div class="sale-originalprice">
+						<span th:text="${sale.originalPrice}">...</span>
+					</div>
+					<div class="sale-newprice">
+						<span th:text="${sale.salePrice}">...</span>
+					</div>
 				</div>
-        	</div>
-        </div>
+			</div>
+		</div>
 
-    </div>
+	</div>
 
-    <th:block layout:fragment="scripts">
-    </th:block>
+	<th:block layout:fragment="scripts">
+	</th:block>
 
 </body>
 

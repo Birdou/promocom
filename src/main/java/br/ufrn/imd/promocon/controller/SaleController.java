@@ -42,7 +42,7 @@ public class SaleController {
 		mv.addObject("sale", new Sale());
 		mv.addObject("stores", stores);
 		mv.addObject("categories", EnumCategories.values());
-		
+
 		return mv;
 	}
 
@@ -59,7 +59,11 @@ public class SaleController {
 
 		try {
 			FileUploadUtils.saveFile(uploadDir, fileName, multipartFile);
-
+			if (sale.getStore().getOwner().getUsername().equals(user.getUsername())) {
+				sale.setVerified(true);
+			} else {
+				sale.setVerified(false);
+			}
 			saleService.save(sale);
 		} catch (IOException e) {
 			e.printStackTrace();

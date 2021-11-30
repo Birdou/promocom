@@ -21,15 +21,16 @@
 
 	<nav class="navbar navbar-dark bg-dark">
 		<a class="navbar-brand" th:href="@{/}">Promocon</a>
-				
+
 		<form class="form-inline" th:action="@{/busca}" method="GET">
 			<div class="input-group">
-				<input class="form-control" name="searchTerm" type="search" placeholder="O que você procura?" aria-label="Search">
+				<input class="form-control" name="searchTerm" type="search" placeholder="O que você procura?"
+					aria-label="Search">
 				<div class="input-group-append">
 					<button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
 				</div>
 			</div>
-	    </form>
+		</form>
 
 		<div sec:authorize="isAnonymous()">
 			<a role="button" class="btn btn-outline-light" th:href="@{/login}">Entrar</a>
