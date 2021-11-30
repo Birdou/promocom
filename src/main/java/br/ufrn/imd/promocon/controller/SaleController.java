@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,7 +85,16 @@ public class SaleController {
 
 	@GetMapping("/excluir/{id}")
 	public ModelAndView removeSale(@PathVariable("id") Long id) {
-		saleService.removeById(id);
+		Sale sale = saleService.findById(id).get();
+
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			User user = (User) principal;
+			if (sale.getAuthor().getUsername().equals(user.getUsername()) ||
+					sale.getStore().getOwner().getUsername().equals(user.getUsername())) {
+				saleService.remove(sale);
+			}
+		}
 
 		return new ModelAndView("redirect:/");
 	}
