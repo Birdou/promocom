@@ -14,6 +14,9 @@ public class UserService extends GenericService<User> {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	AddressService addressService;
 
 	public User findByLogin(String login) {
 		Optional<User> opt = userRepository.findByLogin(login);
@@ -27,6 +30,10 @@ public class UserService extends GenericService<User> {
 
 	@Override
 	public void save(User user) {
+		if(user.getAddress().getId() == null) {
+			addressService.setLatLongByAddress(user.getAddress());
+		}
+		
 		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
 
 		super.save(user);

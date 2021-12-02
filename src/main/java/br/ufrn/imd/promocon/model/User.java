@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,7 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -35,6 +38,10 @@ public class User extends GenericEntity implements UserDetails {
 	private String login;
 	
 	private String password;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_address")
+	private Address address;
 	
 	@OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
 	private List<Sale> publishedSales;
@@ -106,5 +113,21 @@ public class User extends GenericEntity implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return this.getActive();
+	}
+
+	public List<Sale> getPublishedSales() {
+		return publishedSales;
+	}
+
+	public void setPublishedSales(List<Sale> publishedSales) {
+		this.publishedSales = publishedSales;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }

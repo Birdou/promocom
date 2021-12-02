@@ -2,6 +2,7 @@ package br.ufrn.imd.promocon.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -32,12 +34,9 @@ public class Store extends GenericEntity {
 	private User owner;
 
 	// localização
-	private String zip;
-	private String street;
-	private String number;
-	private String district;
-	private String city;
-	private String state;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_address")
+	private Address address;
 
 	@OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
 	private List<Sale> sales;
@@ -68,60 +67,20 @@ public class Store extends GenericEntity {
 		this.name = name;
 	}
 
-	public String getZip() {
-		return this.zip;
-	}
-
-	public void setZip(String zip) {
-		this.zip = zip;
-	}
-
-	public String getStreet() {
-		return this.street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public String getNumber() {
-		return this.number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
-	public String getDistrict() {
-		return this.district;
-	}
-
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-
-	public String getCity() {
-		return this.city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getState() {
-		return this.state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
 	public List<Sale> getSales() {
 		return sales;
 	}
 
 	public void setSales(List<Sale> sales) {
 		this.sales = sales;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 }

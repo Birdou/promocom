@@ -14,8 +14,30 @@
 
 	<link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css}" type="text/css"
 		rel="stylesheet">
-
 </head>
+
+<style>	
+	.collapsable-menu {
+		background-color: #343a40;
+		color: white;
+	}
+	
+	.category:visited {
+		color:white
+	}
+	
+	.category:hover {
+		color:white
+	}
+	
+	.category:active {
+		color:white
+	}
+	
+	.category:link {
+		color:white
+	}
+</style>
 
 <body>
 
@@ -55,10 +77,10 @@
 		</div>
 
 	</nav>
-	<div id="collapsable-menu">
+	<div class="collapsable-menu py-2">
 		<div class="row">
-			<div class="col" th:each="category : ${categories}">
-				<a th:text="${category.description}" th:href="@{'/categoria/' + ${category.name}}"></a>
+			<div class="col text-center" th:each="category : ${categories}">
+				<a class="category" th:text="${category.description}" th:href="@{'/categoria/' + ${category.name}}"></a>
 			</div>
 		</div>
 	</div>

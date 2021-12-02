@@ -37,7 +37,7 @@
 							<label>Localização</label>
 							
 							<div class="form-group">
-								<input name="rua" type="text" id="rua" th:field="*{street}" class="form-control"
+								<input name="rua" type="text" id="rua" th:field="*{address.street}" class="form-control"
 									placeholder="Rua" required maxlength="120">
 								<div class="invalid-feedback">
 									Este Campo é obrigatório!
@@ -45,14 +45,14 @@
 							</div>
 							<div class="row">
 								<div class="col form-group">
-									<input name="cep" type="text" id="cep" th:field="*{zip}" value="" maxlength="9"
+									<input name="cep" type="text" id="cep" th:field="*{address.zipcode}" value="" maxlength="9"
 										onblur="pesquisacep(this.value)" class="form-control" placeholder="Cep" required>
 									<div class="invalid-feedback">
 										Este Campo é obrigatório!
 									</div>
 								</div>
 								<div class="col form-group">
-									<input name="numero" type="text" id="numero" th:field="*{number}" class="form-control"
+									<input name="numero" type="text" id="numero" th:field="*{address.number}" class="form-control"
 										placeholder="Número" required>
 									<div class="invalid-feedback">
 										Este Campo é obrigatório!
@@ -62,21 +62,21 @@
 							
 							<div class="row">
 								<div class="col form-group">
-									<input name="bairro" type="text" id="bairro" th:field="*{district}" class="form-control"
+									<input name="bairro" type="text" id="bairro" th:field="*{address.district}" class="form-control"
 										placeholder="Bairro" required>
 									<div class="invalid-feedback">
 										Este Campo é obrigatório!
 									</div>
 								</div>
 								<div class="col form-group">
-									<input name="cidade" type="text" id="cidade" th:field="*{city}" class="form-control"
+									<input name="cidade" type="text" id="cidade" th:field="*{address.city}" class="form-control"
 										placeholder="Cidade" readonly>
 									<div class="invalid-feedback">
 										Este Campo é obrigatório!
 									</div>
 								</div>
 								<div class="col-2 form-group">
-									<input name="uf" type="text" id="uf" th:field="*{state}" class="form-control"
+									<input name="uf" type="text" id="uf" th:field="*{address.stateCode}" class="form-control"
 										placeholder="UF" readonly>
 									<div class="invalid-feedback">
 										Este Campo é obrigatório!

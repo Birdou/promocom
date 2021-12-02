@@ -11,8 +11,15 @@ public class StoreService extends GenericService<Store> {
 	@Autowired
 	StoreRepository storeRepository;
 
+	@Autowired
+	AddressService addressService;
+	
 	@Override
 	public void save(Store store) {
+		if(store.getAddress().getId() == null) {
+			addressService.setLatLongByAddress(store.getAddress());
+		}
+		
 		super.save(store);
 	}
 }
