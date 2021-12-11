@@ -35,6 +35,7 @@
 
 							<br>
 							<label>Localização</label>
+							<div th:if="${error != null}" class="invalid-feedback d-block" th:text="${error}"></div>
 							
 							<div class="form-group">
 								<input name="rua" type="text" id="rua" th:field="*{address.street}" class="form-control"

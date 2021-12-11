@@ -13,7 +13,7 @@ public class GenericService<T extends GenericEntity> {
 	@Autowired
 	protected GenericRepository<T> repository;
 	
-	public void save(T obj) {
+	public void save(T obj){
 		repository.save(obj);
 	}
 	

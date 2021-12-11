@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.imd.promocon.model.Sale;
+import br.ufrn.imd.promocon.model.exception.InvalidDiscountException;
 import br.ufrn.imd.promocon.repository.SaleRepository;
 
 @Service
@@ -36,5 +37,15 @@ public class SaleService extends GenericService<Sale> {
 		}
 		
 		return sales;
+	}
+	
+	public void saveSale(Sale sale) throws InvalidDiscountException {
+		if(sale.getOriginalPrice() <= sale.getSalePrice()) {
+			throw new InvalidDiscountException("The given discount is invalid!");
+		}
+		
+		sale.setDiscount((sale.getOriginalPrice() - sale.getSalePrice()) / sale.getOriginalPrice());
+		
+		super.save(sale);
 	}
 }

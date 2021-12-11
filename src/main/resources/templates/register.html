@@ -25,6 +25,7 @@
 	            <div class="form-card">
 	            	<div class="text-center p-2"><h3>Cadastro</h3></div>
 	            	<form class="form needs-validation" th:action="@{/usuario/salvar}" role="form" method="post" th:object="${user}" novalidate>
+		            	<div th:if="${error != null}" class="invalid-feedback d-block" th:text="${error}"></div>
 		            	<div class="row">
 		            		<div class="col form-group">
 				            	<input type="text" id="username" th:field="*{login}" name="username" class="form-control" placeholder="Login" 

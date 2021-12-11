@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import br.ufrn.imd.promocon.enums.EnumCategories;
 import br.ufrn.imd.promocon.model.Sale;
 import br.ufrn.imd.promocon.model.Store;
 import br.ufrn.imd.promocon.model.User;
+import br.ufrn.imd.promocon.model.exception.InvalidDiscountException;
 import br.ufrn.imd.promocon.service.SaleService;
 import br.ufrn.imd.promocon.service.StoreService;
 import br.ufrn.imd.promocon.utils.FileUploadUtils;
@@ -35,20 +37,20 @@ public class SaleController {
 	StoreService storeService;
 
 	@GetMapping("/publicar")
-	public ModelAndView salePostPage() {
+	public ModelAndView salePostPage(Sale sale, Model model) {
 
 		List<Store> stores = storeService.findAll();
 
 		ModelAndView mv = new ModelAndView("publish_sale");
-		mv.addObject("sale", new Sale());
-		mv.addObject("stores", stores);
-		mv.addObject("categories", EnumCategories.values());
+		model.addAttribute("sale", sale);
+		model.addAttribute("stores", stores);
+		model.addAttribute("categories", EnumCategories.values());
 
 		return mv;
 	}
 
 	@PostMapping("/salvar")
-	public ModelAndView saveSale(Sale sale, @RequestParam("imageFile") MultipartFile multipartFile) {
+	public ModelAndView saveSale(Sale sale, @RequestParam("imageFile") MultipartFile multipartFile, Model model) {
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -65,9 +67,15 @@ public class SaleController {
 			} else {
 				sale.setVerified(false);
 			}
-			saleService.save(sale);
+			saleService.saveSale(sale);
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (InvalidDiscountException e) {
+			e.printStackTrace();
+			
+			model.addAttribute("error", "Desconto inválido!");
+			
+			return salePostPage(sale, model);
 		}
 
 		return new ModelAndView("redirect:/");

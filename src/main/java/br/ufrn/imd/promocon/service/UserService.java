@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import br.ufrn.imd.promocon.model.User;
+import br.ufrn.imd.promocon.model.exception.LoginInUseException;
 import br.ufrn.imd.promocon.repository.UserRepository;
 
 @Service
@@ -28,8 +29,13 @@ public class UserService extends GenericService<User> {
 		}
 	}
 
-	@Override
-	public void save(User user) {
+	public void saveUser(User user) throws LoginInUseException{
+		User duplicate = findByLogin(user.getLogin());
+		
+		if(duplicate != null) {
+			throw new LoginInUseException("Login already in use!");
+		}
+		
 		if(user.getAddress().getId() == null) {
 			addressService.setLatLongByAddress(user.getAddress());
 		}
