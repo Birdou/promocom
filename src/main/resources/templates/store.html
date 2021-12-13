@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+
+    <title th:text="${store.name}">...</title>
+
+    <link th:href="@{/css/sale_grid.css}" th:rel="stylesheet">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script th:src="@{/js/stars.js}"></script>
+</head>
+
+<body>
+    <div layout:fragment="content">
+
+        <div class="container">
+            <div>
+                <label th:text="${store.name}" type="submit">...</label>
+            </div>
+            <div>
+                <span th:id="rate"></span>
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+                    getStars("rate", /*[[${store.getRating()}]]*/);
+                    /*]]>*/
+                </script>
+                <label>
+                    [[${store.getRating()}]]
+                    ([[${store.ratings.size()}]])
+                    <a th:href="@{'/loja/avaliar/{id}' (id=${store.id})}">Avaliar loja</a>
+                </label>
+            </div>
+            <div>
+                <label th:text="${store.address}" type="submit">...</label>
+            </div>
+
+            <label>Anúncios</label>
+            <div class="sale-main p-4">
+                <div class="card" th:each="sale : ${store.sales}">
+                    <a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}">
+                        <div class="sale-image">
+                            <img th:src="@{/sale-images/__(${sale.image})__}">
+                        </div>
+                    </a>
+                    <div class="sale">
+                        <div class="sale-title">
+                            <a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}">
+                                [[${sale.title}]] <img th:if="${sale.verified} == true" style="height: 18px;"
+                                    th:src="@{/images/verified-icon.jpg}" title="Anunciado pela loja">
+                            </a>
+                        </div>
+                        <div class="sale-store">
+                            <a th:href="@{'/loja/visualizar/{id}' (id=${sale.store.id})}">
+                                [[${sale.store.name}]]
+                            </a>
+                        </div>
+                        <div class="sale-stars">
+                            <th:block th:with="randomId=${#strings.randomAlphanumeric(10)}">
+                                <span th:id=${randomId}></span>
+                                <script th:inline="javascript">
+                                    /*<![CDATA[*/
+                                    getStars(/*[[${randomId}]]*/ 'default', /*[[${sale.getRating()}]]*/);
+                                    /*]]>*/
+                                </script>
+                            </th:block>
+                        </div>
+                        <div class="sale-originalprice">
+                            <span th:text="${sale.originalPrice}">...</span>
+                        </div>
+                        <div class="sale-newprice">
+                            <span th:text="${sale.salePrice}">...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <th:block layout:fragment="scripts">
+    </th:block>
+
+</body>
+
+</html>

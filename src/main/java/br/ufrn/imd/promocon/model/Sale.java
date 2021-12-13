@@ -1,13 +1,17 @@
 package br.ufrn.imd.promocon.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -48,6 +52,18 @@ public class Sale extends GenericEntity {
 	@ManyToOne
 	@JoinColumn(name = "id_author")
 	private User author;
+
+	@OneToMany(mappedBy = "sale", fetch = FetchType.LAZY)
+	private List<SaleRate> ratings;
+
+	public Float getRating() {
+		Float rating = 5f;
+		for (SaleRate rate : ratings) {
+			rating = (rating + rate.getRate()) / 2;
+		}
+
+		return rating;
+	}
 
 	public Long getId() {
 		return id;
@@ -129,11 +145,19 @@ public class Sale extends GenericEntity {
 		this.category = category;
 	}
 
+	public boolean getVerified() {
+		return this.verified;
+	}
+
 	public void setVerified(boolean verified) {
 		this.verified = verified;
 	}
 
-	public boolean getVerified() {
-		return this.verified;
+	public List<SaleRate> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<SaleRate> ratings) {
+		this.ratings = ratings;
 	}
 }

@@ -1,18 +1,23 @@
 package br.ufrn.imd.promocon.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.ufrn.imd.promocon.model.Store;
+import br.ufrn.imd.promocon.model.StoreRate;
 import br.ufrn.imd.promocon.model.User;
 import br.ufrn.imd.promocon.model.exception.DuplicateStoreAddressException;
+import br.ufrn.imd.promocon.service.StoreRateService;
 import br.ufrn.imd.promocon.service.StoreService;
 
 @Controller
@@ -21,6 +26,9 @@ public class StoreController {
 
 	@Autowired
 	StoreService storeService;
+
+	@Autowired
+	StoreRateService storeRateService;
 
 	@GetMapping("/cadastro")
 	public ModelAndView storeRegisterPage(Store store, Model model) {
@@ -47,7 +55,7 @@ public class StoreController {
 				storeService.saveStore(store);
 			} catch (DuplicateStoreAddressException e) {
 				e.printStackTrace();
-				
+
 				model.addAttribute("error", "Já existe uma loja cadastrada neste endereço");
 				return storeRegisterPage(store, model);
 			}
@@ -58,6 +66,50 @@ public class StoreController {
 				e.printStackTrace();
 			}
 		}
+
+		return new ModelAndView("redirect:/");
+	}
+
+	@GetMapping("/visualizar/{id}")
+	public ModelAndView showStore(@PathVariable("id") Long id) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (!(principal instanceof User)) {
+			return new ModelAndView("login");
+		}
+
+		ModelAndView mv = new ModelAndView("store");
+
+		Store store = (Store) storeService.findById(id).get();
+
+		mv.addObject("store", store);
+
+		return mv;
+	}
+
+	@GetMapping("/avaliar/{id}")
+	public ModelAndView rateSale(StoreRate rate, Model model, @PathVariable("id") Long id) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (!(principal instanceof User)) {
+			return new ModelAndView("login");
+		}
+
+		Store store = (Store) storeService.findById(id).get();
+		model.addAttribute("rate", rate);
+		model.addAttribute("store", store);
+
+		return new ModelAndView("rate_store");
+	}
+
+	@PostMapping("/avaliar/{id}")
+	public ModelAndView saveStoreRate(StoreRate rate, @PathVariable("id") Long id) {
+
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Store store = (Store) storeService.findById(id).get();
+
+		rate.setAuthor(user);
+		rate.setStore(store);
+
+		storeRateService.save(rate);
 
 		return new ModelAndView("redirect:/");
 	}

@@ -19,9 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.ufrn.imd.promocon.enums.EnumCategories;
 import br.ufrn.imd.promocon.model.Sale;
+import br.ufrn.imd.promocon.model.SaleRate;
 import br.ufrn.imd.promocon.model.Store;
 import br.ufrn.imd.promocon.model.User;
 import br.ufrn.imd.promocon.model.exception.InvalidDiscountException;
+import br.ufrn.imd.promocon.service.SaleRateService;
 import br.ufrn.imd.promocon.service.SaleService;
 import br.ufrn.imd.promocon.service.StoreService;
 import br.ufrn.imd.promocon.utils.FileUploadUtils;
@@ -32,6 +34,9 @@ public class SaleController {
 
 	@Autowired
 	SaleService saleService;
+
+	@Autowired
+	SaleRateService saleRateService;
 
 	@Autowired
 	StoreService storeService;
@@ -72,9 +77,9 @@ public class SaleController {
 			e.printStackTrace();
 		} catch (InvalidDiscountException e) {
 			e.printStackTrace();
-			
+
 			model.addAttribute("error", "Desconto inválido!");
-			
+
 			return salePostPage(sale, model);
 		}
 
@@ -103,6 +108,34 @@ public class SaleController {
 				saleService.remove(sale);
 			}
 		}
+
+		return new ModelAndView("redirect:/");
+	}
+
+	@GetMapping("/avaliar/{id}")
+	public ModelAndView rateSale(SaleRate rate, Model model, @PathVariable("id") Long id) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (!(principal instanceof User)) {
+			return new ModelAndView("login");
+		}
+
+		Sale sale = (Sale) saleService.findById(id).get();
+		model.addAttribute("sale", sale);
+		model.addAttribute("rate", rate);
+
+		return new ModelAndView("rate_sale");
+	}
+
+	@PostMapping("/avaliar/{id}")
+	public ModelAndView saveSaleRate(SaleRate rate, @PathVariable("id") Long id) {
+
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Sale sale = (Sale) saleService.findById(id).get();
+
+		rate.setAuthor(user);
+		rate.setSale(sale);
+
+		saleRateService.save(rate);
 
 		return new ModelAndView("redirect:/");
 	}

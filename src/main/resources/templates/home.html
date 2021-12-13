@@ -30,16 +30,19 @@
 						</a>
 					</div>
 					<div class="sale-store">
-						<a href="#" th:text="${sale.store.name}">...</a>
+						<a th:href="@{'/loja/visualizar/{id}' (id=${sale.store.id})}">
+							[[${sale.store.name}]]
+						</a>
 					</div>
 					<div class="sale-stars">
 						<th:block th:with="randomId=${#strings.randomAlphanumeric(10)}">
 							<span th:id=${randomId}></span>
 							<script th:inline="javascript">
 								/*<![CDATA[*/
-								getStars(/*[[${randomId}]]*/ 'default', 4.3);
+								getStars(/*[[${randomId}]]*/ 'default', /*[[${sale.getRating()}]]*/);
 								/*]]>*/
 							</script>
+							<label>([[${sale.ratings.size()}]])</label>
 						</th:block>
 					</div>
 					<div class="sale-originalprice">

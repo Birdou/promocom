@@ -41,6 +41,18 @@ public class Store extends GenericEntity {
 	@OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
 	private List<Sale> sales;
 
+	@OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
+	private List<StoreRate> ratings;
+
+	public Float getRating() {
+		Float rating = 5f;
+		for (StoreRate rate : ratings) {
+			rating = (rating + rate.getRate()) / 2;
+		}
+
+		return rating;
+	}
+
 	@Override
 	public Long getId() {
 		return id;
@@ -83,4 +95,11 @@ public class Store extends GenericEntity {
 		this.address = address;
 	}
 
+	public List<StoreRate> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<StoreRate> ratings) {
+		this.ratings = ratings;
+	}
 }

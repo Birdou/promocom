@@ -47,15 +47,24 @@
 					</h2>
 					<div class="sale-stars">
 						<span th:id="rate"></span>
-						<script>
-							getStars("rate", 5);
+						<script th:inline="javascript">
+							/*<![CDATA[*/
+							getStars("rate", /*[[${sale.getRating()}]]*/);
+							/*]]>*/
 						</script>
+						<label>
+							[[${sale.getRating()}]]
+							([[${sale.ratings.size()}]])
+							<a th:href="@{'/promocao/avaliar/{id}' (id=${sale.id})}">Avaliar produto</a>
+						</label>
 					</div>
 					<div class="sale-description">
 						<label th:text="${sale.description}" type="submit">...</label>
 					</div>
 					<div class="sale-store mb-2">
-						<a href="#" th:text="${sale.store.name}">...</a>
+						<a th:href="@{'/loja/visualizar/{id}' (id=${sale.store.id})}">
+							[[${sale.store.name}]]
+						</a>
 					</div>
 					<div class="sale-originalprice">
 						<span th:text="${sale.originalPrice}">...</span>
