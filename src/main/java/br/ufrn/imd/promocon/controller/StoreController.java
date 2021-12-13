@@ -1,7 +1,5 @@
 package br.ufrn.imd.promocon.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -71,7 +69,7 @@ public class StoreController {
 	}
 
 	@GetMapping("/visualizar/{id}")
-	public ModelAndView showStore(@PathVariable("id") Long id) {
+	public ModelAndView showStore(StoreRate rate, Model model, @PathVariable("id") Long id) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (!(principal instanceof User)) {
 			return new ModelAndView("login");
@@ -81,7 +79,8 @@ public class StoreController {
 
 		Store store = (Store) storeService.findById(id).get();
 
-		mv.addObject("store", store);
+		model.addAttribute("rate", rate);
+		model.addAttribute("store", store);
 
 		return mv;
 	}

@@ -87,11 +87,13 @@ public class SaleController {
 	}
 
 	@GetMapping("/visualizar/{id}")
-	public ModelAndView showSale(@PathVariable("id") Long id) {
+	public ModelAndView showSale(SaleRate rate, Model model, @PathVariable("id") Long id) {
 		Sale sale = (Sale) saleService.findById(id).get();
-
+		
 		ModelAndView mv = new ModelAndView("sale");
 		mv.addObject("sale", sale);
+		model.addAttribute("sale", sale);
+		model.addAttribute("rate", rate);
 
 		return mv;
 	}

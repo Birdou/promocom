@@ -15,6 +15,8 @@
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 	<script th:src="@{/js/stars.js}"></script>
+	<link th:rel="stylesheet" th:href="@{/css/layout/layout.css}">
+    <link th:rel="stylesheet" th:href="@{/css/star-rating.css}">
 
 	<style type="text/css">
 		.sale-originalprice {
@@ -30,6 +32,8 @@
 
 <body>
 	<div layout:fragment="content">
+	
+		<div th:replace="/rate_sale :: modal"></div>	
 
 		<div class="container">
 			<div sec:authorize="isAuthenticated()">
@@ -55,7 +59,7 @@
 						<label>
 							[[${sale.getRating()}]]
 							([[${sale.ratings.size()}]])
-							<a th:href="@{'/promocao/avaliar/{id}' (id=${sale.id})}">Avaliar produto</a>
+							<a data-toggle="modal" data-target="#modal_rate_sale" href="#">Avaliar produto</a>
 						</label>
 					</div>
 					<div class="sale-description">

@@ -12,12 +12,17 @@
     <link th:href="@{/css/sale_grid.css}" th:rel="stylesheet">
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link th:rel="stylesheet" th:href="@{/css/layout/layout.css}">
+    <link th:rel="stylesheet" th:href="@{/css/star-rating.css}">
+
 
     <script th:src="@{/js/stars.js}"></script>
 </head>
 
 <body>
     <div layout:fragment="content">
+    
+    	<div th:replace="/rate_store :: modal"></div>
 
         <div class="container">
             <div>
@@ -33,7 +38,7 @@
                 <label>
                     [[${store.getRating()}]]
                     ([[${store.ratings.size()}]])
-                    <a th:href="@{'/loja/avaliar/{id}' (id=${store.id})}">Avaliar loja</a>
+                    <a data-toggle="modal" data-target="#modal_rate_store" href="#" >Avaliar loja</a>
                 </label>
             </div>
             <div>

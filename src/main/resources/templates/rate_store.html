@@ -17,69 +17,75 @@
 
 <body>
 
-    <div class="container">
-        <div class="row">
-            <div class="col">
-
-                <div class="form-card">
-                    <form class="form needs-validation" th:action="@{'/loja/avaliar/{id}' (id=${store.id})}" role="form"
-                        method="post" th:object="${rate}">
-                        <div class="text-center p-2">
-                            <h3>Avaliar loja</h3>
-                        </div>
-
-                        <div th:if="${error != null}" class="invalid-feedback d-block" th:text="${error}"></div>
-
-                        <div class="rating">
-                            <label>
-                                <input type="radio" th:field="*{rate}" name="stars" value="1" required>
-                                <span class="icon">★</span>
-                            </label>
-                            <label>
-                                <input type="radio" th:field="*{rate}" name="stars" value="2" required>
-                                <span class="icon">★</span>
-                                <span class="icon">★</span>
-                            </label>
-                            <label>
-                                <input type="radio" th:field="*{rate}" name="stars" value="3" required>
-                                <span class="icon">★</span>
-                                <span class="icon">★</span>
-                                <span class="icon">★</span>
-                            </label>
-                            <label>
-                                <input type="radio" th:field="*{rate}" name="stars" value="4" required>
-                                <span class="icon">★</span>
-                                <span class="icon">★</span>
-                                <span class="icon">★</span>
-                                <span class="icon">★</span>
-                            </label>
-                            <label>
-                                <input type="radio" th:field="*{rate}" name="stars" value="5" required>
-                                <span class="icon">★</span>
-                                <span class="icon">★</span>
-                                <span class="icon">★</span>
-                                <span class="icon">★</span>
-                                <span class="icon">★</span>
-                            </label>
-                        </div>
-
-                        <div class="form-group">
-                            <textarea id="commentary" th:field="*{commentary}" class="form-control"
-                                placeholder="Comentário" required></textarea>
-                            <div class="invalid-feedback">
-                                Este campo é obrigatório!
-                            </div>
-                        </div>
-
-                        <div style="text-align: center;">
-                            <span class="group-btn">
-                                <button type="submit" class="btn btn-outline-light btn-md">Publicar</button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
+	<div th:fragment="modal">
+    	<div class="modal fade" id="modal_rate_store">
+    		<div class="modal-dialog modal-lg modal-dialog-centered">
+    			<div class="modal-content form-card">
+			        <div class="row">
+			            <div class="col">
+			
+			                <div>
+			                    <form class="form needs-validation" th:action="@{'/loja/avaliar/{id}' (id=${store.id})}" role="form"
+			                        method="post" th:object="${rate}">
+			                        <div class="text-center p-2">
+			                            <h3>Avaliar loja</h3>
+			                        </div>
+			
+			                        <div th:if="${error != null}" class="invalid-feedback d-block" th:text="${error}"></div>
+			
+			                        <div class="rating">
+			                            <label>
+			                                <input type="radio" th:field="*{rate}" name="stars" value="1" required>
+			                                <span class="icon">★</span>
+			                            </label>
+			                            <label>
+			                                <input type="radio" th:field="*{rate}" name="stars" value="2" required>
+			                                <span class="icon">★</span>
+			                                <span class="icon">★</span>
+			                            </label>
+			                            <label>
+			                                <input type="radio" th:field="*{rate}" name="stars" value="3" required>
+			                                <span class="icon">★</span>
+			                                <span class="icon">★</span>
+			                                <span class="icon">★</span>
+			                            </label>
+			                            <label>
+			                                <input type="radio" th:field="*{rate}" name="stars" value="4" required>
+			                                <span class="icon">★</span>
+			                                <span class="icon">★</span>
+			                                <span class="icon">★</span>
+			                                <span class="icon">★</span>
+			                            </label>
+			                            <label>
+			                                <input type="radio" th:field="*{rate}" name="stars" value="5" required>
+			                                <span class="icon">★</span>
+			                                <span class="icon">★</span>
+			                                <span class="icon">★</span>
+			                                <span class="icon">★</span>
+			                                <span class="icon">★</span>
+			                            </label>
+			                        </div>
+			
+			                        <div class="form-group">
+			                            <textarea id="commentary" th:field="*{commentary}" class="form-control"
+			                                placeholder="Comentário" required></textarea>
+			                            <div class="invalid-feedback">
+			                                Este campo é obrigatório!
+			                            </div>
+			                        </div>
+			
+			                        <div style="text-align: center;">
+			                            <span class="group-btn">
+			                                <button type="submit" class="btn btn-outline-light btn-md">Publicar</button>
+			                            </span>
+			                        </div>
+			                    </form>
+			                </div>
+			
+			            </div>
+			        </div>
+	        	</div>
+	    	</div>
         </div>
     </div>
 

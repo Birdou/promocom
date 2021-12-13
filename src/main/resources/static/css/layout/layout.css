@@ -16,7 +16,7 @@ body {
 	box-shadow: 0 1px 0 #cfcfcf;
 }
 
-.container {
+.form-container {
 	height: 100%;
 	display: flex;
 	justify-content: center;
