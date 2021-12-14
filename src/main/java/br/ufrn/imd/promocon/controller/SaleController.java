@@ -27,6 +27,7 @@ import br.ufrn.imd.promocon.service.SaleRateService;
 import br.ufrn.imd.promocon.service.SaleService;
 import br.ufrn.imd.promocon.service.StoreService;
 import br.ufrn.imd.promocon.utils.FileUploadUtils;
+import br.ufrn.imd.promocon.utils.RandomStringGenerator;
 
 @Controller
 @RequestMapping("/promocao")
@@ -43,22 +44,32 @@ public class SaleController {
 
 	@GetMapping("/publicar")
 	public ModelAndView salePostPage(Sale sale, Model model) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof User) {
+			List<Store> stores = storeService.findAll();
 
-		List<Store> stores = storeService.findAll();
+			ModelAndView mv = new ModelAndView("publish_sale");
+			model.addAttribute("sale", sale);
+			model.addAttribute("stores", stores);
+			model.addAttribute("categories", EnumCategories.values());
 
-		ModelAndView mv = new ModelAndView("publish_sale");
-		model.addAttribute("sale", sale);
-		model.addAttribute("stores", stores);
-		model.addAttribute("categories", EnumCategories.values());
-
-		return mv;
+			return mv;
+		} else {
+			return new ModelAndView("login");
+		}
 	}
 
 	@PostMapping("/salvar")
 	public ModelAndView saveSale(Sale sale, @RequestParam("imageFile") MultipartFile multipartFile, Model model) {
-		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		String originalFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+		String fileName = RandomStringGenerator.generate(32);
+
+		int index = originalFileName.lastIndexOf('.');
+		if (index != -1) {
+			fileName += originalFileName.substring(index);
+		}
 
 		sale.setImage(fileName);
 		sale.setAuthor(user);
@@ -88,10 +99,12 @@ public class SaleController {
 
 	@GetMapping("/visualizar/{id}")
 	public ModelAndView showSale(SaleRate rate, Model model, @PathVariable("id") Long id) {
-		Sale sale = (Sale) saleService.findById(id).get();
-		
 		ModelAndView mv = new ModelAndView("sale");
+
+		Sale sale = (Sale) saleService.findById(id).get();
+
 		mv.addObject("sale", sale);
+
 		model.addAttribute("sale", sale);
 		model.addAttribute("rate", rate);
 
@@ -114,31 +127,21 @@ public class SaleController {
 		return new ModelAndView("redirect:/");
 	}
 
-	@GetMapping("/avaliar/{id}")
-	public ModelAndView rateSale(SaleRate rate, Model model, @PathVariable("id") Long id) {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (!(principal instanceof User)) {
-			return new ModelAndView("login");
-		}
-
-		Sale sale = (Sale) saleService.findById(id).get();
-		model.addAttribute("sale", sale);
-		model.addAttribute("rate", rate);
-
-		return new ModelAndView("rate_sale");
-	}
-
 	@PostMapping("/avaliar/{id}")
 	public ModelAndView saveSaleRate(SaleRate rate, @PathVariable("id") Long id) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof User) {
+			User user = (User) principal;
+			Sale sale = (Sale) saleService.findById(id).get();
 
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Sale sale = (Sale) saleService.findById(id).get();
+			rate.setAuthor(user);
+			rate.setSale(sale);
 
-		rate.setAuthor(user);
-		rate.setSale(sale);
+			saleRateService.save(rate);
 
-		saleRateService.save(rate);
-
-		return new ModelAndView("redirect:/");
+			return new ModelAndView("redirect:/");
+		} else {
+			return new ModelAndView("login");
+		}
 	}
 }

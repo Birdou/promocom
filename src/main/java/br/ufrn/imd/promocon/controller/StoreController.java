@@ -70,11 +70,6 @@ public class StoreController {
 
 	@GetMapping("/visualizar/{id}")
 	public ModelAndView showStore(StoreRate rate, Model model, @PathVariable("id") Long id) {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (!(principal instanceof User)) {
-			return new ModelAndView("login");
-		}
-
 		ModelAndView mv = new ModelAndView("store");
 
 		Store store = (Store) storeService.findById(id).get();
@@ -85,31 +80,21 @@ public class StoreController {
 		return mv;
 	}
 
-	@GetMapping("/avaliar/{id}")
-	public ModelAndView rateSale(StoreRate rate, Model model, @PathVariable("id") Long id) {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (!(principal instanceof User)) {
-			return new ModelAndView("login");
-		}
-
-		Store store = (Store) storeService.findById(id).get();
-		model.addAttribute("rate", rate);
-		model.addAttribute("store", store);
-
-		return new ModelAndView("rate_store");
-	}
-
 	@PostMapping("/avaliar/{id}")
 	public ModelAndView saveStoreRate(StoreRate rate, @PathVariable("id") Long id) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof User) {
+			User user = (User) principal;
+			Store store = (Store) storeService.findById(id).get();
 
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Store store = (Store) storeService.findById(id).get();
+			rate.setAuthor(user);
+			rate.setStore(store);
 
-		rate.setAuthor(user);
-		rate.setStore(store);
+			storeRateService.save(rate);
 
-		storeRateService.save(rate);
-
-		return new ModelAndView("redirect:/");
+			return new ModelAndView("redirect:/");
+		} else {
+			return new ModelAndView("login");
+		}
 	}
 }
