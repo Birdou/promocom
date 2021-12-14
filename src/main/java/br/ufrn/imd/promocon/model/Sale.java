@@ -1,5 +1,7 @@
 package br.ufrn.imd.promocon.model;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -62,7 +64,10 @@ public class Sale extends GenericEntity {
 			rating = (rating + rate.getRate()) / 2;
 		}
 
-		return rating;
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+		symbols.setDecimalSeparator('.');
+
+		return Float.valueOf(new DecimalFormat("#.#", symbols).format(rating));
 	}
 
 	public Long getId() {

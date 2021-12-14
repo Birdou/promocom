@@ -42,7 +42,10 @@
 								getStars(/*[[${randomId}]]*/ 'default', /*[[${sale.getRating()}]]*/);
 								/*]]>*/
 							</script>
-							<label>([[${sale.ratings.size()}]])</label>
+							<label>
+								[[${sale.getRating()}]]
+								([[${sale.ratings.size()}]])
+							</label>
 						</th:block>
 					</div>
 					<div class="sale-originalprice">
