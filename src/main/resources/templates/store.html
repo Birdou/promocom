@@ -12,7 +12,7 @@
     <link th:href="@{/css/sale_grid.css}" th:rel="stylesheet">
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<link th:rel="stylesheet" th:href="@{/css/layout/layout.css}">
+    <link th:rel="stylesheet" th:href="@{/css/layout/layout.css}">
     <link th:rel="stylesheet" th:href="@{/css/star-rating.css}">
 
 
@@ -21,66 +21,94 @@
 
 <body>
     <div layout:fragment="content">
-    
-    	<div th:replace="/rate_store :: modal"></div>
+
+        <div th:replace="/rate_store :: modal"></div>
 
         <div class="container">
             <div>
-                <label th:text="${store.name}" type="submit">...</label>
-            </div>
-            <div>
-                <span th:id="rate"></span>
-                <script th:inline="javascript">
-                    /*<![CDATA[*/
-                    getStars("rate", /*[[${store.getRating()}]]*/);
+                <h2 th:text="${store.name}">...</h2>
+                <div>
+                    <span th:id="rate"></span>
+                    <script th:inline="javascript">
+                        /*<![CDATA[*/
+                        getStars("rate", /*[[${store.getRating()}]]*/);
                     /*]]>*/
-                </script>
-                <label>
-                    [[${store.getRating()}]]
-                    ([[${store.ratings.size()}]])
-                    <a data-toggle="modal" data-target="#modal_rate_store" href="#" >Avaliar loja</a>
-                </label>
-            </div>
-            <div>
-                <label th:text="${store.address}" type="submit">...</label>
+                    </script>
+                    <label>
+                        [[${store.getRating()}]]
+                        ([[${store.ratings.size()}]])
+                        <a data-toggle="modal" data-target="#modal_rate_store" href="#">Avaliar loja</a>
+                    </label>
+                </div>
+                <div>
+                    <label th:text="${store.address}" type="submit">...</label>
+                </div>
             </div>
 
-            <label>Anúncios</label>
-            <div class="sale-main p-4">
-                <div class="card" th:each="sale : ${store.sales}">
-                    <a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}">
-                        <div class="sale-image">
-                            <img th:src="@{/sale-images/__(${sale.image})__}">
-                        </div>
-                    </a>
-                    <div class="sale">
-                        <div class="sale-title">
-                            <a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}">
-                                [[${sale.title}]] <img th:if="${sale.verified} == true" style="height: 18px;"
-                                    th:src="@{/images/verified-icon.jpg}" title="Anunciado pela loja">
-                            </a>
-                        </div>
-                        <div class="sale-store">
-                            <a th:href="@{'/loja/visualizar/{id}' (id=${sale.store.id})}">
-                                [[${sale.store.name}]]
-                            </a>
-                        </div>
-                        <div class="sale-stars">
-                            <th:block th:with="randomId=${#strings.randomAlphanumeric(10)}">
-                                <span th:id=${randomId}></span>
-                                <script th:inline="javascript">
-                                    /*<![CDATA[*/
-                                    getStars(/*[[${randomId}]]*/ 'default', /*[[${sale.getRating()}]]*/);
+            <div>
+                <h4>Outros anúncios</h4>
+                <hr>
+                <div class="sale-main p-4">
+                    <div class="card" th:each="sale : ${store.sales}">
+                        <a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}">
+                            <div class="sale-image">
+                                <img th:src="@{/sale-images/__(${sale.image})__}">
+                            </div>
+                        </a>
+                        <div class="sale">
+                            <div class="sale-title">
+                                <a th:href="@{'/promocao/visualizar/{id}' (id=${sale.id})}">
+                                    [[${sale.title}]] <img th:if="${sale.verified} == true" style="height: 18px;"
+                                        th:src="@{/images/verified-icon.jpg}" title="Anunciado pela loja">
+                                </a>
+                            </div>
+                            <div class="sale-store">
+                                <a th:href="@{'/loja/visualizar/{id}' (id=${sale.store.id})}">
+                                    [[${sale.store.name}]]
+                                </a>
+                            </div>
+                            <div class="sale-stars">
+                                <th:block th:with="randomId=${#strings.randomAlphanumeric(10)}">
+                                    <span th:id=${randomId}></span>
+                                    <script th:inline="javascript">
+                                        /*<![CDATA[*/
+                                        getStars(/*[[${randomId}]]*/ 'default', /*[[${sale.getRating()}]]*/);
                                     /*]]>*/
-                                </script>
-                            </th:block>
+                                    </script>
+                                </th:block>
+                            </div>
+                            <div class="sale-originalprice">
+                                <span th:text="${sale.originalPrice}">...</span>
+                            </div>
+                            <div class="sale-newprice">
+                                <span th:text="${sale.salePrice}">...</span>
+                            </div>
                         </div>
-                        <div class="sale-originalprice">
-                            <span th:text="${sale.originalPrice}">...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h4>Avaliação dos clientes</h4>
+                <hr>
+                <div th:each="rate : ${store.ratings}">
+                    <div>
+                        <th:block th:with="randomId=${#strings.randomAlphanumeric(10)}">
+                            <span th:id=${randomId}></span>
+                            <script th:inline="javascript">
+                                /*<![CDATA[*/
+                                getStars(/*[[${randomId}]]*/ 'default', /*[[${rate.rate}]]*/);
+								/*]]>*/
+                            </script>
+                            <label>
+                                [[${rate.author.getUsername()}]]
+                                - [[${rate.getDataCreation()}]]
+                            </label>
+                        </th:block>
+                        <div>
+                            [[${rate.commentary}]]
                         </div>
-                        <div class="sale-newprice">
-                            <span th:text="${sale.salePrice}">...</span>
-                        </div>
+                        <hr>
                     </div>
                 </div>
             </div>

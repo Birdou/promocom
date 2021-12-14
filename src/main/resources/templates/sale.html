@@ -16,7 +16,7 @@
 
 	<script th:src="@{/js/stars.js}"></script>
 	<link th:rel="stylesheet" th:href="@{/css/layout/layout.css}">
-    <link th:rel="stylesheet" th:href="@{/css/star-rating.css}">
+	<link th:rel="stylesheet" th:href="@{/css/star-rating.css}">
 
 	<style type="text/css">
 		.sale-originalprice {
@@ -32,8 +32,8 @@
 
 <body>
 	<div layout:fragment="content">
-	
-		<div th:replace="/rate_sale :: modal"></div>	
+
+		<div th:replace="/rate_sale :: modal"></div>
 
 		<div class="container">
 			<div sec:authorize="isAuthenticated()">
@@ -78,6 +78,32 @@
 					</div>
 				</div>
 			</div>
+
+			<div>
+				<h4>Avaliação dos clientes</h4>
+				<hr>
+				<div th:each="rate : ${sale.ratings}">
+					<div>
+						<th:block th:with="randomId=${#strings.randomAlphanumeric(10)}">
+							<span th:id=${randomId}></span>
+							<script th:inline="javascript">
+								/*<![CDATA[*/
+								getStars(/*[[${randomId}]]*/ 'default', /*[[${rate.rate}]]*/);
+								/*]]>*/
+							</script>
+							<label>
+								[[${rate.author.getUsername()}]]
+								- [[${rate.getDataCreation()}]]
+							</label>
+						</th:block>
+						<div>
+							[[${rate.commentary}]]
+						</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 	</div>
