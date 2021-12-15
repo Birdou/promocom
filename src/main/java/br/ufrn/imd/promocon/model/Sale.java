@@ -59,10 +59,12 @@ public class Sale extends GenericEntity {
 	private List<SaleRate> ratings;
 
 	public Float getRating() {
-		Float rating = 5f;
+		Float rateSum = 0f;
 		for (SaleRate rate : ratings) {
-			rating = (rating + rate.getRate()) / 2;
+			rateSum += rate.getRate();
 		}
+		
+		Float rating = rateSum / ratings.size();
 
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
 		symbols.setDecimalSeparator('.');

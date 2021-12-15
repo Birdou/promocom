@@ -68,20 +68,31 @@ public class StoreController {
 		return new ModelAndView("redirect:/");
 	}
 
-	@GetMapping("/visualizar/{id}")
-	public ModelAndView showStore(StoreRate rate, Model model, @PathVariable("id") Long id) {
+	@GetMapping("/visualizar/{storeId}")
+	public ModelAndView showStore(StoreRate rate, Model model, @PathVariable("storeId") Long id) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		boolean canRate = false;
+		
+		if (principal instanceof User) {
+			User user = (User) principal;
+			
+			canRate = storeRateService.findByStoreAndAuthor(id, user.getId()) == null;
+		}
+		
 		ModelAndView mv = new ModelAndView("store");
 
 		Store store = (Store) storeService.findById(id).get();
 
+		model.addAttribute("can_rate", canRate);
 		model.addAttribute("rate", rate);
 		model.addAttribute("store", store);
 
 		return mv;
 	}
 
-	@PostMapping("/avaliar/{id}")
-	public ModelAndView saveStoreRate(StoreRate rate, @PathVariable("id") Long id) {
+	@PostMapping("/avaliar/{storeId}")
+	public ModelAndView saveStoreRate(StoreRate rate, @PathVariable("storeId") Long id) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof User) {
 			User user = (User) principal;
@@ -92,9 +103,9 @@ public class StoreController {
 
 			storeRateService.save(rate);
 
-			return new ModelAndView("redirect:/");
+			return new ModelAndView("redirect:/loja/visualizar/" + id);
 		} else {
-			return new ModelAndView("login");
+			return new ModelAndView("redirect:/login");
 		}
 	}
 }

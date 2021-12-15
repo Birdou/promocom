@@ -97,22 +97,29 @@ public class SaleController {
 		return new ModelAndView("redirect:/");
 	}
 
-	@GetMapping("/visualizar/{id}")
-	public ModelAndView showSale(SaleRate rate, Model model, @PathVariable("id") Long id) {
+	@GetMapping("/visualizar/{saleId}")
+	public ModelAndView showSale(SaleRate rate, Model model, @PathVariable("saleId") Long id) {
 		ModelAndView mv = new ModelAndView("sale");
 
 		Sale sale = (Sale) saleService.findById(id).get();
-
-		mv.addObject("sale", sale);
-
+		
+		boolean canRate = false;
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			User user = (User) principal;
+			canRate = saleRateService.findBySaleAndAuthor(id, user.getId()) == null;
+		}
+		
+		model.addAttribute("can_rate", canRate);
 		model.addAttribute("sale", sale);
 		model.addAttribute("rate", rate);
 
 		return mv;
 	}
 
-	@GetMapping("/excluir/{id}")
-	public ModelAndView removeSale(@PathVariable("id") Long id) {
+	@GetMapping("/excluir/{saleId}")
+	public ModelAndView removeSale(@PathVariable("saleId") Long id) {
 		Sale sale = saleService.findById(id).get();
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -127,8 +134,8 @@ public class SaleController {
 		return new ModelAndView("redirect:/");
 	}
 
-	@PostMapping("/avaliar/{id}")
-	public ModelAndView saveSaleRate(SaleRate rate, @PathVariable("id") Long id) {
+	@PostMapping("/avaliar/{saleId}")
+	public ModelAndView saveSaleRate(SaleRate rate, @PathVariable("saleId") Long id) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof User) {
 			User user = (User) principal;
@@ -139,9 +146,9 @@ public class SaleController {
 
 			saleRateService.save(rate);
 
-			return new ModelAndView("redirect:/");
+			return new ModelAndView("redirect:/promocao/visualizar/" + id);
 		} else {
-			return new ModelAndView("login");
+			return new ModelAndView("redirect:/login");
 		}
 	}
 }

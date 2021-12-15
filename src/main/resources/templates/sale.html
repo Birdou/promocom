@@ -59,7 +59,7 @@
 						<label>
 							[[${sale.getRating()}]]
 							([[${sale.ratings.size()}]])
-							<a data-toggle="modal" data-target="#modal_rate_sale" href="#">Avaliar produto</a>
+							<a th:if="${can_rate == true}" data-toggle="modal" data-target="#modal_rate_sale" href="#">Avaliar produto</a>
 						</label>
 					</div>
 					<div class="sale-description">
