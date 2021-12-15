@@ -47,10 +47,13 @@ public class Store extends GenericEntity {
 	private List<StoreRate> ratings;
 
 	public Float getRating() {
-		Float rating = 5f;
-		for (StoreRate rate : ratings) {
-			rating = (rating + rate.getRate()) / 2;
-		}
+		Float rateSum = 0f;
+		for (StoreRate rate : ratings)
+			rateSum += rate.getRate();
+
+		Float rating = 0f;
+		if (!ratings.isEmpty())
+			rating = rateSum / ratings.size();
 
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
 		symbols.setDecimalSeparator('.');

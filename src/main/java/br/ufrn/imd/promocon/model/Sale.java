@@ -43,7 +43,7 @@ public class Sale extends GenericEntity {
 	private String image;
 
 	private boolean verified;
-	
+
 	private Double distance;
 
 	@Enumerated(EnumType.STRING)
@@ -62,11 +62,12 @@ public class Sale extends GenericEntity {
 
 	public Float getRating() {
 		Float rateSum = 0f;
-		for (SaleRate rate : ratings) {
+		for (SaleRate rate : ratings)
 			rateSum += rate.getRate();
-		}
-		
-		Float rating = rateSum / ratings.size();
+
+		Float rating = 0f;
+		if (!ratings.isEmpty())
+			rating = rateSum / ratings.size();
 
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
 		symbols.setDecimalSeparator('.');
