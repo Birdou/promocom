@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import br.ufrn.imd.promocon.model.Address;
 import br.ufrn.imd.promocon.model.User;
 import br.ufrn.imd.promocon.model.exception.LoginInUseException;
 import br.ufrn.imd.promocon.repository.UserRepository;
@@ -30,9 +31,16 @@ public class UserService extends GenericService<User> {
 	}
 
 	public void saveUser(User user) throws LoginInUseException{
+		Address duplicateAddress = addressService.findByZipcodeNumberCityAndState(user.getAddress());
+		
+		if(duplicateAddress != null) {
+			user.setAddress(duplicateAddress);
+		}
+		
 		User duplicate = findByLogin(user.getLogin());
 		
-		if(duplicate != null) {
+		if((user.getId() == null && duplicate != null) 
+				|| (user.getId() != null && duplicate != null && !user.getId().equals(duplicate.getId()))) {
 			throw new LoginInUseException("Login already in use!");
 		}
 		

@@ -39,6 +39,28 @@ public class SaleService extends GenericService<Sale> {
 		return sales;
 	}
 	
+	public List<Sale> findByStore(Long idStore){
+		Optional<List<Sale>> opt = saleRepository.findByStore(idStore);
+		List<Sale> sales = new ArrayList<Sale>();
+		
+		if(opt.isPresent()) {
+			sales = opt.get();
+		}
+		
+		return sales;
+	}
+	
+	public List<Sale> findAllOrderedByDistance(double latitude, double longitude){
+		Optional<List<Sale>> opt = saleRepository.findAllOrderedByDistance(latitude, longitude);
+		List<Sale> sales = new ArrayList<Sale>();
+		
+		if(opt.isPresent()) {
+			sales = opt.get();
+		}
+		
+		return sales;
+	}
+	
 	public void saveSale(Sale sale) throws InvalidDiscountException {
 		if(sale.getOriginalPrice() <= sale.getSalePrice()) {
 			throw new InvalidDiscountException("The given discount is invalid!");

@@ -29,6 +29,12 @@ public class StoreService extends GenericService<Store> {
 	}
 	
 	public void saveStore(Store store) throws DuplicateStoreAddressException {
+		Address duplicateAddress = addressService.findByZipcodeNumberCityAndState(store.getAddress());
+		
+		if(duplicateAddress != null) {
+			store.setAddress(duplicateAddress);
+		}
+		
 		Store duplicate = findByAddress(store.getAddress());
 		
 		if(duplicate != null) {

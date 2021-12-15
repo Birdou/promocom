@@ -3,6 +3,7 @@ package br.ufrn.imd.promocon.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 import br.ufrn.imd.promocon.enums.EnumCategories;
 import br.ufrn.imd.promocon.model.Sale;
 import br.ufrn.imd.promocon.model.Store;
+import br.ufrn.imd.promocon.model.User;
 import br.ufrn.imd.promocon.service.SaleService;
 import br.ufrn.imd.promocon.service.StoreService;
+import br.ufrn.imd.promocon.service.UserService;
 
 @Controller
 @RequestMapping("/")
@@ -25,12 +28,33 @@ public class HomeController {
 
 	@Autowired
 	SaleService saleService;
+	
+	@Autowired
+	UserService userService;
 
 	@GetMapping("/")
 	public ModelAndView homePage() {
 
 		List<Store> stores = storeService.findAll();
 		List<Sale> sales = saleService.findAll();
+
+		ModelAndView mv = new ModelAndView("home");
+
+		mv.addObject("stores", stores);
+		mv.addObject("sales", sales);
+		mv.addObject("categories", EnumCategories.values());
+
+		return mv;
+	}
+	
+	@GetMapping("/promocoes-proximas")
+	public ModelAndView closeSalesHomePage() {
+		
+		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userService.findById(principal.getId()).get();
+
+		List<Store> stores = storeService.findAll();
+		List<Sale> sales = saleService.findAllOrderedByDistance(user.getAddress().getLatitude(), user.getAddress().getLongitude());
 
 		ModelAndView mv = new ModelAndView("home");
 

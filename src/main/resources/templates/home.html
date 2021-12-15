@@ -34,6 +34,9 @@
 							[[${sale.store.name}]]
 						</a>
 					</div>
+					<div th:if="${sale.distance != null}">
+						<span>[[${#numbers.formatDecimal(sale.distance, 1, 'DEFAULT', 1, 'DEFAULT')}]] km</span>
+					</div>
 					<div class="sale-stars">
 						<th:block th:with="randomId=${#strings.randomAlphanumeric(10)}">
 							<span th:id=${randomId}></span>

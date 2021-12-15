@@ -43,6 +43,8 @@ public class Sale extends GenericEntity {
 	private String image;
 
 	private boolean verified;
+	
+	private Double distance;
 
 	@Enumerated(EnumType.STRING)
 	private EnumCategories category;
@@ -166,5 +168,13 @@ public class Sale extends GenericEntity {
 
 	public void setRatings(List<SaleRate> ratings) {
 		this.ratings = ratings;
+	}
+
+	public Double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Double distance) {
+		this.distance = distance;
 	}
 }
