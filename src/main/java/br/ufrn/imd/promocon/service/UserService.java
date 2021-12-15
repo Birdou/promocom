@@ -48,8 +48,10 @@ public class UserService extends GenericService<User> {
 			addressService.setLatLongByAddress(user.getAddress());
 		}
 		
-		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
-
+		if(user.getId() == null) {
+			user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+		}
+			
 		super.save(user);
 	}
 }
